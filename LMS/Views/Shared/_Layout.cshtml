@@ -1,0 +1,114 @@
+﻿@inject SignInManager<ApplicationUser> signInManager;
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <environment include="Development">
+        <link href="~/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <script src="~/lib/jquery/jquery.js"></script>
+        <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        <script src="~/bootstrap/js/bootstrap.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <link href="~/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <script src="~/lib/jquery/jquery.js"></script>
+        <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        <script src="~/bootstrap/js/bootstrap.js"></script>
+    </environment>
+    <link href="~/css/StyleSheet.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-sm navbar-light" style="background-color: var(--clr-accent-400);">
+            <a class="navbar-brand" asp-action="index" asp-controller="home">
+                <img src="/images/logo.png" height="140" width="140" />
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapsNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsNavbar">
+                <ul class="navbar-nav" style="font-size: 18px">
+                    <li class="nav-item">
+                        <a asp-action="index" asp-controller="home" class="nav-link" style="margin: 0 10px 0 10px">Books</a>
+                    </li>
+                    @if (signInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("User")))
+                    {
+                        <li class="nav-item">
+                            <a asp-action="Membership" asp-controller="home" asp-route-email="@User.Identity.Name" class="nav-link" style="margin: 0 10px 0 10px">Membership</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-action="BooksOnHold" asp-controller="home" asp-route-email="@User.Identity.Name" class="nav-link" style="margin: 0 10px 0 10px">Holds</a>
+                        </li>
+                    }
+
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a asp-action="Add" asp-controller="home" class="nav-link" style="margin: 0 10px 0 10px">Add Book</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Manage
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background: var(--clr-accent-400)">
+                                <a asp-action="ListUsers" asp-controller="Administration" class="dropdown-item">Users</a>
+
+                                <a asp-action="ListRoles" asp-controller="Administration" class="dropdown-item">Roles</a>
+                            </div>
+                        </li>
+
+                    }
+                </ul>
+               
+                <ul class="navbar-nav ml-auto" style="font-size: 16px">
+                      @*     За допомогою маркера цього маркера я зміг в простий html код вписати логік C#   *@  
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item">
+                            <form method="post" asp-action="logout" asp-controller="account">
+                                <button type="submit" class="nav-link btn btn-link py-0" style="width:auto">
+                                    Logout @User.Identity.Name
+                                </button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a asp-action="register" asp-controller="account" class="nav-link" style="margin: 0 10px 0 10px">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-action="login" asp-controller="account" class="nav-link" style="margin: 0 10px 0 10px">Login</a>
+                        </li>
+
+                    }
+
+                </ul>
+            </div>
+        </nav>
+        <div>
+            @RenderBody()
+        </div>
+        @if (IsSectionDefined("Scripts"))
+        {
+            @RenderSection("Scripts", required: true)
+        }
+    </div>
+
+    <footer class="text-center text-dark" style="background: var(--clr-accent-400); margin-top:auto">
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2021 Copyright:
+            <a class="text-dark" asp-action="index" asp-controller="home">LibraryManagementSystem.com</a>
+        </div>
+    </footer>
+</body>
+
+
+</html>

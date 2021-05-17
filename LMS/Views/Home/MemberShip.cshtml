@@ -1,0 +1,71 @@
+﻿@model MemberEditViewModel
+
+@{
+    ViewBag.Title = "Edit membership";
+}
+
+<style>
+    .form-control, .custom-select {
+        background-color: rgb(244, 215, 54);
+    }
+
+    .mt-3 {
+        margin-left: 5rem;
+        margin-right: 5rem;
+    }
+
+    .col-sm-2 {
+        color: rgb(244, 215, 54);
+    }
+</style>
+
+<form enctype="multipart/form-data" asp-controller="Home" asp-action="MemberShip" method="post" class="mt-3">
+    <input hidden asp-for="Id" />
+    <input hidden asp-for="UserMembershipId" />
+    <input hidden asp-for="User" />
+    <div class="form-group row">
+        <label asp-for="FirstName" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="FirstName" class="form-control" placeholder="FirstName" />
+            <span asp-validation-for="FirstName"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="LastName" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="LastName" class="form-control" placeholder="LastName" />
+            <span asp-validation-for="LastName"></span>
+        </div>
+
+    </div>
+    <div class="form-group row">
+        <label asp-for="DateOfBirth" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="DateOfBirth" type="date" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Address" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Address" class="form-control" placeholder="Address" />
+            <span asp-validation-for="Address"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="PhoneNUmber" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="PhoneNUmber" class="form-control" placeholder="PhoneNUmber" />
+            <span asp-validation-for="PhoneNUmber"></span>
+        </div>
+    </div>
+
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div>
+        <button type="submit" class="card__button">Update</button>
+        <a asp-controller="home" asp-action="index" class="card__button">Cancel</a>
+    </div>
+
+
+</form>

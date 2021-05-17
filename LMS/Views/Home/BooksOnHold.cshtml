@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Book>
+@inject SignInManager<ApplicationUser> signInManager;
+
+@{
+    ViewBag.Title = "Books in my possession.";
+}
+
+<style>
+    .card__buttonE, .card__buttonE:link, .card__buttonE:visited {
+        margin: initial;
+        color: rgb(0, 255, 144);
+    }
+
+        .card__buttonE:hover, .card__buttonE:active {
+            background-color: rgb(0, 255, 144);
+            color: var(--clr-neutral-900);
+        }
+
+    .card__buttonD, .card__buttonD:link, .card__buttonD:visited {
+        color: rgb(245, 50, 50);
+        border: 0px;
+        margin: 0 10px
+    }
+
+        .card__buttonD:hover, .card__buttonD:active {
+            background-color: rgb(245, 50, 50);
+            color: var(--clr-neutral-900);
+        }
+</style>
+
+<div id="assets">
+    <h3>My books</h3>
+    <div id="assetsTable">
+        <table class="table table-condensed" style="color: hsl(52, 86%, 45%); text-align:center" id="catalogIndexTable">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Year</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Must be submitted</th>
+                    <th>Mark</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Model)
+                {
+                    var photoPath = "/images/" + (book.ImageUrl ?? "noimage.jpg");
+                    <tr class="assetRow" style="text-align:center">
+                        <td class="">
+                            <a asp-controller="Catalog" asp-action="Detail" asp-route-id="@book.Id">
+                                <img style="width:auto; height:140px" src="@photoPath" asp-append-version="true" class="imageCell" />
+                            </a>
+                        </td>
+                        <td class="">@book.Title</td>
+                        <td class="">@book.Author</td>
+                        <td class="">@book.ISBN</td>
+                        <td class="">@book.Year</td>
+                        <td class="">@book.Location</td>
+                        <td class="">@book.Status.ToString()</td>
+                        <td>@book.Hold.HoldTime</td>
+
+                        @if (book.Status == Status.Lost)
+                        {
+                            <th>
+                                <a class="card__button card__buttonD" asp-controller="home"
+                                   asp-action="FoundBook" asp-route-id="@book.Id" asp-route-email="@User.Identity.Name">Mark as Found</a>
+                            </th>
+                        }
+                        else
+                        {
+                            <th style="font-size: 14px">
+                                <a class="card__button card__buttonE" asp-controller="home"
+                                   asp-action="ReturnBook" asp-route-email="@User.Identity.Name" asp-route-id="@book.Id">
+                                    Return
+                                </a>
+                                <hr />
+                                <a class="card__button card__buttonD" asp-controller="home"
+                                   asp-action="LostBook" asp-route-id="@book.Id" asp-route-email="@User.Identity.Name">Lost</a>
+                            </th>
+                        }
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

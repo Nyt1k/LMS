@@ -1,0 +1,108 @@
+﻿@model HomeDetailViewModel
+@inject SignInManager<ApplicationUser> signInManager;
+
+@{
+    ViewBag.Title = "Book Details";
+    var photoPath = "/images/" + (Model.Book.ImageUrl ?? "noimage.jpg");
+}
+
+
+<style>
+
+    .card {
+        margin: 10px auto;
+        float: none;
+        margin-bottom: 10px;
+        margin-top: 20px;
+        width: 80%;
+        max-width: 500px;
+        display: flex;
+        flex-direction: row;
+        box-shadow: 0 0 20px rgba(0,0,0, 0.2);
+        background: hsl(52, 86%, 45%);
+        color: hsl(207, 19%,9%);
+        text-align: center;
+        padding: 2em;
+    }
+
+        .card:hover {
+            transform: none;
+        }
+
+    .hold__button, .hold__button:link, .hold__button:visited {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        margin: 10px 60px;
+        width: 80px;
+        height: 27px;
+        text-decoration: none;
+        border: 4px solid var(--clr-neutral-900);
+        border-radius: 3px;
+        background-color: var(--clr-neutral-900);
+        color: hsl(52, 86%, 45%);
+        transition-duration: 0.3s;
+    }
+
+        .hold__button:hover, .hold__button:active {
+            border-color: var(--clr-neutral-900);
+            background-color: hsl(52, 86%, 45%);
+            color: var(--clr-neutral-900);
+        }
+
+    .book-image {
+        border-radius: 4%;
+        border: 5px solid white;
+        object-fit: cover;
+        float: left;
+        width: 180px;
+        height: 360px;
+    }
+
+    .book-title {
+        font-size: 2rem;
+    }
+
+    .book-main {
+        text-align: left;
+        margin-left: 3rem;
+    }
+</style>
+
+
+<div class="card">
+    <div class="book-sidebar">
+        <img class="book-image" src="@photoPath"
+             asp-append-version="true" />
+    </div>
+    <div class="book-main">
+        <h2 class="book-title">@Model.Book.Title</h2>
+        <p class="book-author">Author: @Model.Book.Author</p>
+        <p class="book-year">Year: @Model.Book.Year</p>
+        <p class="book-ISBN">ISBN: @Model.Book.ISBN</p>
+        <p class="book-branch">Branch name: @Model.Book.Location</p>
+        @if (Model.Book.Status == Status.OnHold)
+        {
+            <p class="text-danger">No such book availble.</p>
+        }
+        else if (Model.Book.Status == Status.Lost)
+        {
+            <p class="text-danger">Book is lost.</p>
+        }
+        else
+        {
+            <form asp-action="HoldBook" asp-route-id="@Model.Book.Id" asp-route-email="@User.Identity.Name" method="post">
+                <button type="submit" class="hold__button m-1">Hold</button>
+            </form>
+        }
+        <a asp-controller="home" asp-action="index" class="hold__button m-1">Back</a>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts{
+    <script src="~/js/CustomScript.js"></script>
+}

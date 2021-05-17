@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Book>
+@inject SignInManager<ApplicationUser> signInManager;
+
+
+@{
+    ViewBag.Title = "Books List";
+
+}
+
+<style>
+    .card__buttonE, .card__buttonE:link, .card__buttonE:visited {
+        margin: initial;
+        color: rgb(0, 255, 144);
+    }
+
+        .card__buttonE:hover, .card__buttonE:active {
+            background-color: rgb(0, 255, 144);
+            color: var(--clr-neutral-900);
+        }
+
+    .card__buttonD, .card__buttonD:link, .card__buttonD:visited {
+        color: rgb(245, 50, 50);
+        border: 0px;
+        margin: 0 10px
+    }
+
+        .card__buttonD:hover, .card__buttonD:active {
+            background-color: rgb(245, 50, 50);
+            color: var(--clr-neutral-900);
+        }
+
+</style>
+
+
+@using (Html.BeginForm("SearchBook", "home", FormMethod.Get))
+{
+    <div class="col-12">
+        <div class="input-group input-group-lg w-25 mt-3 h-auto mx-3"5>
+            @Html.TextBox("name", "", new { @class = "form-control", @style= "border-radius: 0.2rem;" })
+
+
+            <input class="btn btn-outline-secondary" style="margin-left:10px" type="submit" value="Search" />
+        </div>
+    </div>
+}
+
+<main>
+    <section class="cards">
+        @foreach (var book in Model)
+        {
+            var photoPath = "/images/" + (book.ImageUrl ?? "noimage.jpg");
+
+            <div class="card">
+                <div class="card__image-container">
+                    <img src="@photoPath" asp-append-version="true" />
+                </div>
+
+                <div class="card__content">
+                    <h2 class="card__title ">@book.Title</h2>
+
+                    <div class="card__info">
+                        <div class="blog-category">@book.Author</div>
+                        <a asp-controller="home" asp-action="details" asp-route-id="@book.Id" class="card__button">Details</a>
+                    </div>
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        <div class="card__info" style="margin: 10px auto;">
+                            <a asp-controller="home" asp-action="edit" asp-route-id="@book.Id" class="card__button card__buttonE">Edit</a>
+                            <form asp-action="DeleteBook" asp-route-id="@book.Id" method="post">
+                                <button type="submit" class="card__button card__buttonD"
+                                        onclick="return confirm('Are you sure you want to delete user: @book.Title')">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        }
+
+    </section>
+</main>
+

@@ -1,0 +1,197 @@
+﻿:root {
+    --clr-neutral-900: hsl(207, 19%,9%);
+    --clr-neutral-100: hsl(0, 0%, 100%);
+    --clr-accent-400: hsl(52, 86%, 45%);
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: var(--clr-neutral-900);
+    display: grid;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr repeat(12, minmax(auto,60px)) 1fr;
+    grid-gap: 40px;
+    padding: 60px 0;
+}
+
+.container {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 400;
+    color: var(--clr-neutral-100);
+}
+
+
+
+/*Book cards*/
+
+.cards {
+    grid-column: 2 / span 12;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(auto,60px));
+    grid-gap: 40px;
+}
+
+.card {
+    grid-column-end: span 4;
+    display: flex;
+    flex-direction: column;
+    background-color: hsl(0, 0%, 16%);
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    border: 5px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.8rem;
+}
+
+    .card:hover {
+        transform: translateY(-7px);
+    }
+
+.card__image-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.card__image-container img {
+    float: left;
+    width: 100%;
+    height: 460px;
+    object-fit: cover;
+    border-radius: 0.8rem;
+}
+
+.card__content {
+    padding: 20px;
+}
+
+.card__title {
+    margin-bottom: 20px;
+}
+
+.card__info {
+    display: flex;
+    align-self: end;
+    align-items: center;
+}
+
+.card__button, .card__button:link, .card__button:visited {
+    margin-left: auto;
+    padding: 5px 20px;
+    background-color: var(--clr-neutral-900);
+    border-radius: 4px;
+    color: var(--clr-accent-400);
+    text-decoration: none;
+}
+
+.card__button:hover, .card__button:active {
+    background-color: var(--clr-accent-400);
+    color: var(--clr-neutral-900);
+}
+
+
+
+@media only screen and (max-width: 1000px) {
+    .card {
+        grid-column-end: span 6;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    main {
+        grid-gap: 20px;
+    }
+
+    .card {
+        grid-column-end: span 12;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    main {
+        grid-template-columns: 10px repeat(6, 1fr) 10px;
+        grid-gap: 10px;
+    }
+
+    .cards {
+        grid-column: 2/ span 6;
+        grid-template-columns: repeat(6,1fr);
+        grid-gap: 20px;
+    }
+
+    .card {
+        grid-column-end: span 6;
+    }
+}
+
+/*Registration*/
+
+.box {
+    box-sizing: initial;
+    margin-top: 16rem;
+    width: 300px;
+    padding: 40px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: var(--clr-neutral-900);
+    text-align: center;
+}
+
+.box h1{
+    color:white;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.box input[type = "text"], .box input[type = "password"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid var(--clr-accent-400);
+    padding: 14px 10px;
+    width: 200px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.3s;
+}
+
+.box input[type="text"]:focus, .box input[type="password"]:focus {
+    width: 280px;
+    border-color: hsl(7, 96%, 45%);
+}
+
+.box .button {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid var(--clr-accent-400);
+    padding: 14px 40px;
+    width: 200px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.3s;
+    cursor:pointer;
+}
+
+.box .button:hover {
+    background: var(--clr-accent-400);
+}

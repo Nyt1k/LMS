@@ -1,0 +1,45 @@
+﻿@model RegisterViewModel
+
+@{
+    ViewBag.Title = "User Registration";
+}
+<style>
+    button[type="submit"] {
+        border: 0;
+        background: none;
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        border: 2px solid var(--clr-accent-400);
+        padding: 14px 40px;
+        width: 200px;
+        outline: none;
+        color: white;
+        border-radius: 24px;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+        button[type="submit"]:hover {
+            background: var(--clr-accent-400);
+        }
+</style>
+
+
+
+<div>
+    <form class="box" method="post">
+        <h1>User Registration</h1>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <input type="text" asp-for="Email" placeholder="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+
+        <input type="password" asp-for="Password" placeholder="Password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+
+        <input type="password" asp-for="ConfirmPassword" placeholder="Confirm Password" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+        <button type="submit" value="Register">Register</button>
+    </form>
+</div>
